@@ -5,8 +5,13 @@ import tables
 type ConfigDir* = object
   path: string
 
-proc initConfigDir*(path: string): ConfigDir =
+proc initConfigDir*(path: string; autoCreate = true): ConfigDir =
   result.path = joinPath(getConfigDir(), path)
+  if autoCreate:
+    discard existsOrCreateDir(result.path)
+
+proc initSubdir*(c: ConfigDir; name: string): bool {.discardable.} =
+  existsOrCreateDir(joinPath(c.path, name))
 
 proc openFile(c: ConfigDir; filename: string; mode = fmRead): File =
   let path = joinPath(c.path, filename)
