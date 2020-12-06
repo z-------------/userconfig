@@ -3,7 +3,7 @@ import strutils
 import tables
 
 type ConfigDir* = object
-  path: string
+  path*: string
 
 proc initConfigDir*(path: string; autoCreate = true): ConfigDir =
   result.path = joinPath(getConfigDir(), path)
