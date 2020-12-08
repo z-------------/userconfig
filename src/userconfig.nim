@@ -20,6 +20,9 @@ proc openFile(c: ConfigDir; filename: string; mode = fmRead): File =
 proc createFile*(c: ConfigDir; filename: string) =
   discard c.openFile(filename, fmAppend)
 
+proc getPath*(c: ConfigDir; filename: string): string =
+  os.joinPath(c.path, filename)
+
 # list #
 
 proc loadList*(c: ConfigDir; filename: string): seq[string] =
