@@ -10,18 +10,18 @@ proc initConfigDir*(path: string; autoCreate = true): ConfigDir =
   if autoCreate:
     discard existsOrCreateDir(result.path)
 
+proc getPath*(c: ConfigDir; filename: string): string =
+  os.joinPath(c.path, filename)
+
 proc initSubdir*(c: ConfigDir; name: string): bool {.discardable.} =
-  existsOrCreateDir(joinPath(c.path, name))
+  existsOrCreateDir(c.getPath(name))
 
 proc openFile(c: ConfigDir; filename: string; mode = fmRead): File =
-  let path = joinPath(c.path, filename)
+  let path = c.getPath(filename)
   return open(path, mode)
 
 proc createFile*(c: ConfigDir; filename: string) =
   discard c.openFile(filename, fmAppend)
-
-proc getPath*(c: ConfigDir; filename: string): string =
-  os.joinPath(c.path, filename)
 
 # list #
 
