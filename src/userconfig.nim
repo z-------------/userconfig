@@ -10,8 +10,8 @@ proc initConfigDir*(path: string; autoCreate = true): ConfigDir =
   if autoCreate:
     discard existsOrCreateDir(result.path)
 
-proc getPath*(c: ConfigDir; filename: string): string =
-  os.joinPath(c.path, filename)
+proc getPath*(c: ConfigDir; pieces: varargs[string]): string =
+  os.joinPath(c.path, os.joinPath(pieces))
 
 proc initSubdir*(c: ConfigDir; name: string): bool {.discardable.} =
   existsOrCreateDir(c.getPath(name))
